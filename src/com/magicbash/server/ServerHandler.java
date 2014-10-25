@@ -5,7 +5,6 @@ import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
 import com.magicbash.requsts.RequsetHandler;
-import com.magicbash.stats.Log;
 import com.magicbash.stats.Redirects;
 import com.magicbash.stats.Requests;
 
@@ -24,7 +23,13 @@ import io.netty.handler.traffic.TrafficCounter;
 public class ServerHandler extends SimpleChannelInboundHandler<HttpRequest> {
 
 	private String uri;
-
+	@Override
+	public void channelInactive(ChannelHandlerContext ctx) throws Exception {
+		// TODO Auto-generated method stub
+		Server.STAT.decNumOfConnections();
+		super.channelInactive(ctx);
+	}
+	
 	@Override
 	protected void channelRead0(ChannelHandlerContext ctx, HttpRequest request)
 			throws Exception {
@@ -88,9 +93,7 @@ public class ServerHandler extends SimpleChannelInboundHandler<HttpRequest> {
 		
 
 	}
-	public String getUri(){
-		return uri;
-	}
+	
 	public ServerHandler() {
 
 	}

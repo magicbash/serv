@@ -77,6 +77,7 @@ public class Statistic {
 	}
 	
 	public void addLog(Log log) {
+		if (log.getReciveBytes() == 0 & log.getSendBytes() == 0) return;
 		if (this.log.size()>=16){
 			this.log.removeFirst();
 		}

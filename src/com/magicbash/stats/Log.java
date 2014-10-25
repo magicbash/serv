@@ -3,22 +3,26 @@ package com.magicbash.stats;
 
 import io.netty.handler.traffic.ChannelTrafficShapingHandler;
 import io.netty.handler.traffic.TrafficCounter;
+import io.netty.channel.ChannelHandler;
 
 import java.util.Calendar;
 
+import com.magicbash.server.Server;
 
 public class Log extends ChannelTrafficShapingHandler{
+	
 	public Log(long checkInterval) {
+		
 		super(checkInterval);
 		// TODO Auto-generated constructor stub
 	}
-
+	private boolean isAdd = false;
 	private String ip;
-	private String uri;
+	private String uri = "undef";
 	private Calendar time;
 	private long sendBytes;
 	private long reciveBytes;
-	private int speed;
+	private long speed = 0;
 	
 	/*public Log() {
 		// TODO Auto-generated constructor stub
@@ -35,10 +39,17 @@ public class Log extends ChannelTrafficShapingHandler{
 	*/
 	@Override
 	protected void doAccounting(TrafficCounter counter) {
+		
 		this.sendBytes = counter.cumulativeWrittenBytes();
 		this.reciveBytes = counter.cumulativeReadBytes();
+		this.setTime(Calendar.getInstance());
+		this.speed = counter.lastWriteThroughput();
 		// TODO Auto-generated method stub
-		//super.doAccounting(counter);
+		super.doAccounting(counter);
+		if (!this.isAdd){
+			Server.STAT.addLog(this);
+			this.isAdd = true;
+		}
 	}
 	public String getIp(){
 		return ip;
@@ -60,7 +71,7 @@ public class Log extends ChannelTrafficShapingHandler{
 		return sendBytes;
 	}
 	
-	public int getSpeed(){
+	public long getSpeed(){
 		return speed;
 	}
 	
