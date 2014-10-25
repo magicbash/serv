@@ -4,46 +4,47 @@ package com.magicbash.stats;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.concurrent.atomic.AtomicInteger;
 
 
 
 
 public class Statistic {
-	private int numOfRequests = 0;
-	private int numOfUniqRequests = 0;
-	private int numOfConnections = 0;
+	private AtomicInteger numOfRequests = new AtomicInteger(0);
+	private AtomicInteger numOfUniqRequests = new AtomicInteger(0);
+	private AtomicInteger numOfConnections = new AtomicInteger(0);
 	private HashMap<String, Requests> req = new HashMap<String, Requests>();
 	private HashMap<String, Redirects> red = new HashMap<String, Redirects>();
 	private LinkedList<Log> log = new LinkedList<Log>();
 	
 	public void incReq(){
-		this.numOfRequests++;
+		this.numOfRequests.incrementAndGet();
 		
 		//use next method if ip is uniq 
 	}
 	
 	private void incUniqReq() {
-		this.numOfUniqRequests++;
+		this.numOfUniqRequests.incrementAndGet();
 	}
 	
 	public int getNumOfRequests(){
-		return this.numOfRequests;
+		return this.numOfRequests.intValue();
 	}
 	
 	public int getNumOfUniqRequests(){
-		return this.numOfUniqRequests;
+		return this.numOfUniqRequests.intValue();
 	}
 	
 	public void incNumOfConnections (){
-		this.numOfConnections++;
+		this.numOfConnections.incrementAndGet();
 	}
 	
 	public void decNumOfConnections (){
-		this.numOfConnections--;
+		this.numOfConnections.decrementAndGet();
 	}
 	
 	public int getNumOfConnections (){
-		return numOfConnections;
+		return numOfConnections.intValue();
 	}
 	
 	public void addRequest(Requests req){

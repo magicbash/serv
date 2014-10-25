@@ -24,19 +24,6 @@ public class Log extends ChannelTrafficShapingHandler{
 	private long reciveBytes;
 	private long speed = 0;
 	
-	/*public Log() {
-		// TODO Auto-generated constructor stub
-	}
-	public Log(String ip, String uri, int send, int recive, int speed) {
-		// TODO Auto-generated constructor stub
-		this.ip = ip;
-		this.uri = uri;
-		this.sendBytes = send;
-		this.reciveBytes = recive;
-		this.speed = speed;
-		this.time = Calendar.getInstance();
-	}
-	*/
 	@Override
 	protected void doAccounting(TrafficCounter counter) {
 		
